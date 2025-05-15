@@ -35,3 +35,38 @@ Default Mapping (ignores not matching commits):
         "pref": patch
         "fix": patch
 ```
+
+## Explanation
+
+### New Version
+```mermaid
+gitGraph
+   commit id: "feat: x"
+   commit id: "feat: y"
+   branch develop
+   checkout develop
+   commit id: "feat: z"
+   checkout main
+   merge develop tag: "2.8.23"
+   commit id: "fix: fix a bug"
+```
+* Command: `autosemver .`
+* Resulting Version: `2.8.24`
+* Explanation: The last commit on the main branch is a `fix`, which increments the patch.
+
+
+### New RC
+```mermaid
+gitGraph
+   commit id: "feat: x"
+   commit id: "feat: y"
+   branch develop
+   checkout develop
+   commit id: "feat: z"
+   checkout main
+   merge develop tag: "2.8.23-rc.1"
+   commit id: "fix: fix a bug"
+```
+* Command: `autosemver . --release-candidate`
+* Resulting Version: `2.8.23-rc.2`
+* Explanation: The last commit on the main branch is a `fix`, which normally increments the path. Since we want a RC, the last RC is incremented by 1.
